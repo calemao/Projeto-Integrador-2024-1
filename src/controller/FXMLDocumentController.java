@@ -288,16 +288,26 @@ public class FXMLDocumentController implements Initializable {
                 String btnEstilo = "-fx-background-color: #f9fff6; -fx-background-radius: 10; -fx-border-color: #f9fff6; -fx-border-radius: 10;";
 
                 // Limpar os campos de texto
-                tfPopulacao.clear();
-                tfDomicilios.clear();
-                tfPib.clear();
-                tfRendaMedia.clear();
-                tfRendaNominal.clear();
-                tfPea.clear();
-                tfIDHGeral.clear();
-                tfIHGEducacao.clear();
-                tfIHDLongevidade.clear();
-
+                tfPopulacao.setText("0");
+                tfDomicilios.setText("0");
+                tfPib.setText("0");
+                tfRendaMedia.setText("0");
+                tfRendaNominal.setText("0");
+                tfPea.setText("0");
+                tfIDHGeral.setText("0");
+                tfIHGEducacao.setText("0");
+                tfIHDLongevidade.setText("0");
+                
+                Constraints.setRemoveTextFieldDouble(tfPopulacao);
+                Constraints.setRemoveTextFieldDouble(tfDomicilios);
+                Constraints.setRemoveTextFieldDouble(tfPib);
+                Constraints.setRemoveTextFieldDouble(tfRendaMedia);
+                Constraints.setRemoveTextFieldDouble(tfRendaNominal);
+                Constraints.setRemoveTextFieldDouble(tfPea);
+                Constraints.setRemoveTextFieldDouble(tfIDHGeral);
+                Constraints.setRemoveTextFieldDouble(tfIHGEducacao);
+                Constraints.setRemoveTextFieldDouble(tfIHDLongevidade);
+                
                 // Redefinir os estilos dos campos de texto
                 tfPopulacao.setStyle(estilo);
                 tfDomicilios.setStyle(estilo);
@@ -639,44 +649,29 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-   private double parseDoubleOrDefault(String text) {
-    if (text == null || text.isEmpty()) {
-        return 0.0;
-    }
-    // Remover caracteres não numéricos, exceto ponto para números decimais
-    text = text.replaceAll("[^\\d.]", "");
-    if (text.isEmpty()) {
-        return 0.0; // Se a string ficar vazia após a limpeza, retornar 0.0
-    }
-    return Double.parseDouble(text);
-}
-
-    
-  public void atualizarDados(String municipioSelecionado) {
-    // Laço para percorrer a lista dos meus objetos.
-    for (Municipio municipios : Program.getObjMunicipios()) {
-        if (municipios.getMunicipio().equalsIgnoreCase(municipioSelecionado)) {
-            try {
-                municipios.setPopulacao(parseDoubleOrDefault(tfPopulacao.getText()));
-                municipios.setDomicilios(parseDoubleOrDefault(tfDomicilios.getText()));
-                municipios.setPibTotal(parseDoubleOrDefault(tfPib.getText()));
-                municipios.setRendaMedia(parseDoubleOrDefault(tfRendaMedia.getText()));
-                municipios.setRendaNominal(parseDoubleOrDefault(tfRendaNominal.getText()));
-                municipios.setPeaDia(parseDoubleOrDefault(tfPea.getText()));
-                municipios.setIdhGeral(parseDoubleOrDefault(tfIDHGeral.getText()));
-                municipios.setIdhEducacao(parseDoubleOrDefault(tfIHGEducacao.getText()));
-                municipios.setIdhlongevidade(parseDoubleOrDefault(tfIHDLongevidade.getText()));
-                municipios.setDateUltimaModificacao(getDateTime());
-                // Preencher dados atualizados
-                preencherDados(comboBoxMunicipios.getValue());
-            } catch (NumberFormatException e) {
-                // Se houver erro na conversão, não atualiza os valores
-                System.err.println("Erro ao converter para double: " + e.getMessage());
+    public void atualizarDados(String municipioSelecionado) {
+        // Laço para percorrer a lista dos meus objetos.
+        for (Municipio municipios : Program.getObjMunicipios()) {
+            if (municipios.getMunicipio().equalsIgnoreCase(municipioSelecionado)) {
+                try {
+                    municipios.setPopulacao(parseDouble(tfPopulacao.getText()));
+                    municipios.setDomicilios(parseDouble(tfDomicilios.getText()));
+                    municipios.setPibTotal(parseDouble(tfPib.getText()));
+                    municipios.setRendaMedia(parseDouble(tfRendaMedia.getText()));
+                    municipios.setRendaNominal(parseDouble(tfRendaNominal.getText()));
+                    municipios.setPeaDia(parseDouble(tfPea.getText()));
+                    municipios.setIdhGeral(parseDouble(tfIDHGeral.getText()));
+                    municipios.setIdhEducacao(parseDouble(tfIHGEducacao.getText()));
+                    municipios.setIdhlongevidade(parseDouble(tfIHDLongevidade.getText()));
+                    municipios.setDateUltimaModificacao(getDateTime());
+                    preencherDados(comboBoxMunicipios.getValue());
+                } catch (NumberFormatException e) {
+                    // Se houver erro na conversão, não atualiza os valores
+                    System.err.println("Erro ao converter para double: " + e.getMessage());
+                }
             }
         }
     }
-}
- 
   
   
     public static void calcularRanking(){
